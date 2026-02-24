@@ -1,3 +1,53 @@
-div {
-  color: aqua;
+* {
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100vh;
+  background-color: #0D0D0D;
+  padding-left: 40px;
+  padding-right: 30px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  height: 90px;
+  padding-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: row;
+  gap: 75px;
+}
+
+.nav {
+  display: flex;
+  gap: 65px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 500;
+  align-items: center;
+}
+
+.logo {
+  height: 57px;
+  width: 57px;
+}
+
+.addButton {
+  background-color: #FF6900;
+  text-align: center;
+  width: 142px;
+  height: 40px;
+  border-radius: 20px;
+  color: #000000;
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 10px;
 }
