@@ -3,7 +3,7 @@ import {create} from 'zustand'
 export type ProductType = {
     type: string
     name: string
-    prices: []
+    prices: number[]
     url: string
     isOn: boolean
 }
