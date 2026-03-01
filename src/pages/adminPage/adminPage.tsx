@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
+import { useProducts } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
 
@@ -8,15 +9,39 @@ type NavElementProps = {
 }
 
 const NavElement = (props: NavElementProps) => {
+  const {setCurrentType} = useProducts(useShallow(state => ({
+    setCurrentType: state.setCurrentType
+  })))
+
+  let type: string
+  switch (props.name) {
+    case 'Пиццы':
+      type = 'pizza'
+      break;
+    case 'Комбо':
+      type = 'combo'
+      break;
+    case 'Напитки':
+      type = 'drink'
+      break;
+    case 'Десерты':
+      type = 'dessert'
+      break;
+    case 'Закуски':
+      type = 'snack'
+      break;
+  }
   return (
-    <div className='navElement'>{props.name}</div>
+    <div onClick={e => setCurrentType(type)} className='navElement'>{props.name}</div>
   )
 }
 
 type ProductProps = {
+  type: string
   name: string;
   prices: number[];
   url: string;
+  isOn: boolean
 }
 
 const Product = (props: ProductProps) => {
@@ -28,7 +53,17 @@ const Product = (props: ProductProps) => {
         <div className='product-price'>{props.prices[0]}/{props.prices[1]}/{props.prices[2]}₽</div>
       </div>
       <div className='product-right'>
-        <Switch defaultChecked />
+        <Switch disableRipple defaultChecked
+          sx={{
+            transform: "scale(1.5)",
+            '& .MuiSwitch-switchBase.Mui-checked': {
+              color: '#FF791B',
+            },
+            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+              backgroundColor: '#FF791B',
+            },
+          }}
+        />
         <img className='edit-button' src="src\assets\Edit (1).svg" alt="" />
         <img className='delete-button' src="src\assets\Trash.svg" alt="" />
       </div>
@@ -37,10 +72,13 @@ const Product = (props: ProductProps) => {
 }
 
 const ProductsList = () => {
+  const {products, currentType} = useProducts(useShallow(state => ({
+    products: state.products,
+    currentType: state.currentType
+  })))
   return (
     <div className='products-container'>
-      <Product name='Pepperoni' url='src\assets\Pizza (2).svg' prices={[10, 20, 30]}/>
-      <Product name='Pepperoni' url='src\assets\Pizza (2).svg' prices={[10, 20, 30]}/>
+      {products.filter(product => product.type === currentType).map((product) => <Product {...product}/>)}
     </div>
   )
 }
