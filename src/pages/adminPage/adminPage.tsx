@@ -94,6 +94,7 @@ export function Admin() {
             <NavElement name='Комбо'/>
             <NavElement name='Напитки'/>
             <NavElement name='Закуски'/>
+            <NavElement name='Десерты'/>
           </div>
         </div>
         <div className='addButton'>Добавить</div>
