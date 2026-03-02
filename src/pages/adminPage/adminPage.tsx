@@ -50,7 +50,7 @@ const Product = (props: ProductProps) => {
       <div className='product-left'>
         <img className='product-img' src={props.url} alt="" />
         <div className='product-name'>{props.name}</div>
-        <div className='product-price'>{props.prices[0]}/{props.prices[1]}/{props.prices[2]}₽</div>
+        <div className='product-price'>{props.prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
         <Switch disableRipple defaultChecked
