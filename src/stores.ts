@@ -2,6 +2,7 @@ import {create} from 'zustand'
 import { mock } from './mock-data.ts'
 
 export type ProductType = {
+    id: string
     type: string
     name: string
     prices: number[]

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useProducts } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
+import {Modal} from './modal/adminModal'
 
 type NavElementProps = {
   name: string;
@@ -13,24 +14,30 @@ const NavElement = (props: NavElementProps) => {
     setCurrentType: state.setCurrentType
   })))
 
-  let type: string
-  switch (props.name) {
-    case 'Пиццы':
-      type = 'pizza'
-      break;
-    case 'Комбо':
-      type = 'combo'
-      break;
-    case 'Напитки':
-      type = 'drink'
-      break;
-    case 'Десерты':
-      type = 'dessert'
-      break;
-    case 'Закуски':
-      type = 'snack'
-      break;
-  }
+  const [type, setType] = useState('');
+
+  useEffect(() => {
+    switch (props.name) {
+      case 'Пиццы':
+        setType('pizza');
+        break;
+      case 'Комбо':
+        setType('combo');
+        break;
+      case 'Напитки':
+        setType('drink');
+        break;
+      case 'Десерты':
+        setType('dessert');
+        break;
+      case 'Закуски':
+        setType('snack');
+        break;
+      default:
+        setType('');
+    }
+  }, [props.name]);
+
   return (
     <div onClick={e => setCurrentType(type)} className='navElement'>{props.name}</div>
   )
@@ -64,7 +71,7 @@ const Product = (props: ProductProps) => {
             },
           }}
         />
-        <img className='edit-button' src="src\assets\Edit (1).svg" alt="" />
+        <img className='edit-button' src="src\assets\edit.svg" alt="" />
         <img className='delete-button' src="src\assets\Trash.svg" alt="" />
       </div>
     </div>
@@ -86,9 +93,10 @@ const ProductsList = () => {
 export function Admin() {
   return (
     <div className='container'>
+      <Modal show={true} onCloseButtonClick={false}/>
       <div className='header'>
         <div className='header-left'>
-          <img className='logo' src="src\assets\Pizza (1).svg" alt="" />
+          <img className='logo' src="src\assets\logo.svg" alt="" />
           <div className='nav'>
             <NavElement name='Пиццы'/>
             <NavElement name='Комбо'/>
