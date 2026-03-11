@@ -3,6 +3,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { useProducts, type ProductType } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
+import { Modal } from '../../components/modal';
 
 type NavElementProps = {
   name: string;
@@ -90,11 +91,19 @@ const ProductsList = () => {
 }
 
 export function Admin() {
+  const [display, setDisplay] = useState('none')
+  const openModal = () => {
+    setDisplay("flex")
+  }
+  const closeModal = () => {
+    setDisplay('none')                
+  }
   return (
     <div className='container'>
       <div className='header'>
         <div className='header-left'>
-          <img className='logo' src="src\assets\logo.svg" alt="" />
+          <img onClick={e => console.log(display)} className='logo' src="src\assets\logo.svg" alt="" />
+          <Modal show={display} onCLoseButtonCLick={closeModal}></Modal>
           <div className='nav'>
             <NavElement name='Пиццы'/>
             <NavElement name='Комбо'/>
@@ -103,7 +112,7 @@ export function Admin() {
             <NavElement name='Десерты'/>
           </div>
         </div>
-        <div className='addButton'>Добавить</div>
+        <div onClick={openModal} className='addButton'>Добавить</div>
       </div>
       <ProductsList/>
     </div>

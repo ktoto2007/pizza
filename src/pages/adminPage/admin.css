@@ -104,3 +104,34 @@
   gap: 75px;
   align-items: center;
 }
+
+.modal-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #4141413d;
+  backdrop-filter: blur(20px);
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+}
+
+.modal-content {
+  min-width: 400px;
+  height: 80vh;
+  background-color: #363636;
+  color: white;
+  overflow-y: scroll;
+  border-radius: 13px;
+  scrollbar-width: none;
+  padding: 10px;
+}
+
+.closeButton {
+  background-color: #FF6900;
+  border-radius: 13px;
+  max-width: 120px;
+}
