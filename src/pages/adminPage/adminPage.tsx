@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useProducts } from "../../stores"
+import { useProducts, type ProductType } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
-import {Modal} from './modal/adminModal'
 
 type NavElementProps = {
   name: string;
@@ -44,20 +43,20 @@ const NavElement = (props: NavElementProps) => {
 }
 
 type ProductProps = {
-  type: string
-  name: string;
-  prices: number[];
-  url: string;
-  isOn: boolean
+  id: string
 }
 
 const Product = (props: ProductProps) => {
+  const {products} = useProducts(useShallow(state => ({
+    products: state.products
+  })))
+  let {name, prices, url} = products.find((product) => product.id === props.id) as ProductType
   return (
     <div className='product'>
       <div className='product-left'>
-        <img className='product-img' src={props.url} alt="" />
-        <div className='product-name'>{props.name}</div>
-        <div className='product-price'>{props.prices.join('/')}₽</div>
+        <img className='product-img' src={url} alt="" />
+        <div className='product-name'>{name}</div>
+        <div className='product-price'>{prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
         <Switch disableRipple defaultChecked
@@ -85,7 +84,7 @@ const ProductsList = () => {
   })))
   return (
     <div className='products-container'>
-      {products.filter(product => product.type === currentType).map((product) => <Product {...product}/>)}
+      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id}/>)}
     </div>
   )
 }
@@ -93,7 +92,6 @@ const ProductsList = () => {
 export function Admin() {
   return (
     <div className='container'>
-      <Modal show={true} onCloseButtonClick={false}/>
       <div className='header'>
         <div className='header-left'>
           <img className='logo' src="src\assets\logo.svg" alt="" />

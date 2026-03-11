@@ -104,18 +104,3 @@
   gap: 75px;
   align-items: center;
 }
-
-.modal {
-    height: 900px;
-    width: 500px;
-    background-color: #0D0D0D;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.closeButton {
-    position: relative;
-    right: 10px;
-    top: 10px;
-}
