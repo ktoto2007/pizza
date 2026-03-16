@@ -109,29 +109,69 @@
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   background-color: #4141413d;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(1px);
   position: fixed;
   left: 0px;
   top: 0px;
   z-index: 10;
+  padding-right: 15px;
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   min-width: 400px;
   height: 80vh;
-  background-color: #363636;
+  background-color: #131313;
   color: white;
+  font-size: 24px;
   overflow-y: scroll;
   border-radius: 13px;
   scrollbar-width: none;
   padding: 10px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .closeButton {
-  background-color: #FF6900;
+  height: 30px;
+  width: 30px;
+}
+
+.input {
   border-radius: 13px;
-  max-width: 120px;
+  height: 35px;
+  width: 90%;
+  background-color: #181818;
+  border-width: 0px;
+  color: #CFCFCF;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.category-select {
+  border-radius: 13px;
+  background-color: #181818;
+  border-width: 0px;
+  color: #CFCFCF;
+  height: 35px;
+  width: 90%;
+  padding: 5px;
+}
+
+.category-select:focus {
+  outline: none;
+}
+
+.input:focus {
+  outline: none;
 }
