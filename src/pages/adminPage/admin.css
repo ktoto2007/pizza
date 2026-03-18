@@ -124,7 +124,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-width: 400px;
+  width: 400px;
   height: 80vh;
   background-color: #131313;
   color: white;
@@ -150,12 +150,15 @@
 .input {
   border-radius: 13px;
   height: 35px;
-  width: 90%;
+  max-width: 95%;
   background-color: #181818;
   border-width: 0px;
   color: #CFCFCF;
-  padding-left: 10px;
   font-size: 14px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding: 10px;
+  border: #1B1B1B, solid, 2px;
 }
 
 .category-select {
@@ -164,7 +167,7 @@
   border-width: 0px;
   color: #CFCFCF;
   height: 35px;
-  width: 90%;
+  width: 95%;
   padding: 5px;
 }
 
@@ -174,4 +177,18 @@
 
 .input:focus {
   outline: none;
+}
+
+.submit-button {
+  background-color: #FF6900;
+  text-align: center;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  color: #000000;
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 10px;
+  margin: auto;
+  
 }

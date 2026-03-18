@@ -26,6 +26,9 @@ export const Modal = (props: ModalProps) => {
                 </select>
                 <div className="input-label">Цена</div>
                 <input className="input" type="text" placeholder="Цена"/>
+                <div className="input-label">Описание</div>
+                <div style={{height: 140}} contentEditable className="input"/>
+                <div onClick={props.onCLoseButtonCLick} className="submit-button">Добавить</div>
             </div>
         </div>
     )
