@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useProducts } from "../stores"
+import { useShallow } from "zustand/shallow"
 
 type ModalProps = {
     show: string
@@ -8,6 +10,11 @@ type ModalProps = {
 export const Modal = (props: ModalProps) => {
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
+    const [price, setPrice] = useState('')
+    const [description, setDescription] = useState('')
+    const {addProduct} = useProducts(useShallow(state => ({
+        addProduct: state.addProduct
+    })))
     return (
         <div style={{display: props.show}} className="modal-container">
             <div className="modal-content">
@@ -16,9 +23,9 @@ export const Modal = (props: ModalProps) => {
                     <img className="closeButton" onClick={props.onCLoseButtonCLick} src="src\assets\close.svg" alt=""/>
                 </div>
                 <div className="input-label">Название</div>
-                <input onChange={e => {setName(e.target.value)}} className="input" type="text" placeholder="Название"/>
+                <input value={name} onChange={e => {setName(e.target.value)}} className="input" type="text" placeholder="Название"/>
                 <div className="input-label">Категория</div>
-                <select onChange={e => {setCategory(e.target.value)}} className="category-select">
+                <select value={category} onChange={e => {setCategory(e.target.value)}} className="category-select">
                     <option value="">Категория</option>
                     <option value="pizza">Пицца</option>
                     <option value="combo">Комбо</option>
@@ -27,11 +34,13 @@ export const Modal = (props: ModalProps) => {
                     <option value="dessert">Десерты</option>
                 </select>
                 <div className="input-label">Цена</div>
-                <input className="input" type="text" placeholder="Цена"/>
+                <input value={price} onChange={e => {setPrice(e.target.value)}} className="input" type="text" placeholder="Цена"/>
                 <div className="input-label">Описание</div>
-                <div style={{height: 140}} contentEditable className="input"/>
+                <textarea className="input" value={description} onChange={e => {setDescription(e.target.value)}} style={{height: 140, resize:"none"}}></textarea>
                 <div onClick={() => {
                     props.onCLoseButtonCLick()
+                    addProduct({id: crypto.randomUUID(), type: category, name: name, prices: [parseInt(price)], url: "", isOn: true})
+                    setName(""), setCategory(""), setPrice(""), setDescription("")
                 }} className="submit-button">Добавить</div>
             </div>
         </div>
