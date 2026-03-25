@@ -7,6 +7,7 @@ export type ProductType = {
     name: string
     prices: number[]
     url: string
+    description: string
     isOn: boolean
 }
 

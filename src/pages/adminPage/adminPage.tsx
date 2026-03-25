@@ -102,7 +102,7 @@ export function Admin() {
     <div className='container'>
       <div className='header'>
         <div className='header-left'>
-          <img onClick={e => console.log(display)} className='logo' src="src\assets\logo.svg" alt="" />
+          <img className='logo' src="src\assets\logo.svg" alt="" />
           <Modal show={display} onCLoseButtonCLick={closeModal}></Modal>
           <div className='nav'>
             <NavElement name='Пиццы'/>

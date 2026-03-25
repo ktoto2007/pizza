@@ -195,3 +195,13 @@
   margin: auto;
   cursor: pointer;
 }
+
+.alert {
+  position: fixed;
+  bottom: 110px;
+  right: 135px;
+  font-size: 13px;
+  opacity: 0.7;
+  justify-content: center;
+  color: rgb(212, 30, 30);
+}
