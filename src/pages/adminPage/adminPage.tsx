@@ -45,6 +45,7 @@ const NavElement = (props: NavElementProps) => {
 
 type ProductProps = {
   id: string
+  onEdit: (product: ProductType) => void
 }
 
 const Product = (props: ProductProps) => {
@@ -85,15 +86,17 @@ const ProductsList = () => {
   })))
   return (
     <div className='products-container'>
-      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id}/>)}
+      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id} onEdit={(product) => {}}/>)}
     </div>
   )
 }
 
 export function Admin() {
   const [display, setDisplay] = useState('none')
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null)
   const openModal = () => {
     setDisplay("flex")
+    setSelectedProduct(null)
   }
   const closeModal = () => {
     setDisplay('none')                

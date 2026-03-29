@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useProducts } from "../stores"
+import { useProducts, type ProductType } from "../stores"
 import { useShallow } from "zustand/shallow"
 
 type ModalProps = {
@@ -7,8 +7,9 @@ type ModalProps = {
     onCLoseButtonCLick: () => void
     name?: string
     category?: string
-    price?: string
+    price?: number[]
     description?: string
+    selectedProduct? : ProductType
 }
 
 export const Modal = (props: ModalProps) => {
@@ -20,6 +21,7 @@ export const Modal = (props: ModalProps) => {
     const {addProduct} = useProducts(useShallow(state => ({
         addProduct: state.addProduct
     })))
+
     return (
         <div style={{display: props.show}} className="modal-container">
             <div className="modal-content">
@@ -46,7 +48,8 @@ export const Modal = (props: ModalProps) => {
                 <div onClick={() => {
                     if (name !== '' && category !== '' && price !== '' && description !== '') {
                         props.onCLoseButtonCLick()
-                        addProduct({id: crypto.randomUUID(), type: category, name, prices: [parseInt(price)], url: "", isOn: true, description})
+                        //здесь как раз если будет undefined то, создается новый продукт, иначе меняется старый(еще не реализовал)
+                        props.name === undefined ? addProduct({id: crypto.randomUUID(), type: category, name, prices: [parseInt(price)], url: "", isOn: true, description}) : 
                         setName(""), setCategory(""), setPrice(""), setDescription(""), setAlertVisibility('none')
                     }
                     else {setAlertVisibility('flex')}
