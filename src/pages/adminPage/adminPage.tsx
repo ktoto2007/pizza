@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useProducts, type ProductType } from "../../stores"
+import { useModal, useProducts, type ProductType } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
 import { Modal } from '../../components/modal';
@@ -45,14 +45,21 @@ const NavElement = (props: NavElementProps) => {
 
 type ProductProps = {
   id: string
-  onEdit: (product: ProductType) => void
 }
 
 const Product = (props: ProductProps) => {
-  const {products} = useProducts(useShallow(state => ({
-    products: state.products
+  const {products, setSelectedProduct, deleteProduct} = useProducts(useShallow(state => ({
+    products: state.products,
+    setSelectedProduct: state.setSelectedProduct,
+    deleteProduct: state.deleteProduct
   })))
-  let {name, prices, url} = products.find((product) => product.id === props.id) as ProductType
+
+  const {setModalDisplay} = useModal(useShallow(state => ({
+    setModalDisplay: state.setModalDisplay
+  })))
+
+  let product = products.find((product) => product.id === props.id) as ProductType
+  let {name, prices, url} = product
   return (
     <div className='product'>
       <div className='product-left'>
@@ -72,8 +79,8 @@ const Product = (props: ProductProps) => {
             },
           }}
         />
-        <img className='edit-button' src="src\assets\edit.svg" alt="" />
-        <img className='delete-button' src="src\assets\Trash.svg" alt="" />
+        <img className='edit-button' onClick={() => {setModalDisplay('flex'), setSelectedProduct(product)}} src="src\assets\edit.svg" alt="" />
+        <img className='delete-button' onClick={() => {deleteProduct(props.id), console.log(products)}} src="src\assets\Trash.svg" alt="" />
       </div>
     </div>
   )
@@ -86,27 +93,22 @@ const ProductsList = () => {
   })))
   return (
     <div className='products-container'>
-      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id} onEdit={(product) => {}}/>)}
+      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id}/>)}
     </div>
   )
 }
 
 export function Admin() {
-  const [display, setDisplay] = useState('none')
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null)
-  const openModal = () => {
-    setDisplay("flex")
-    setSelectedProduct(null)
-  }
-  const closeModal = () => {
-    setDisplay('none')                
-  }
+  const {setModalDisplay} = useModal(useShallow(state => ({
+    setModalDisplay: state.setModalDisplay
+  })))
+
   return (
     <div className='container'>
       <div className='header'>
         <div className='header-left'>
           <img className='logo' src="src\assets\logo.svg" alt="" />
-          <Modal show={display} onCLoseButtonCLick={closeModal}></Modal>
+          <Modal></Modal>
           <div className='nav'>
             <NavElement name='Пиццы'/>
             <NavElement name='Комбо'/>
@@ -115,7 +117,7 @@ export function Admin() {
             <NavElement name='Десерты'/>
           </div>
         </div>
-        <div onClick={openModal} className='addButton'>Добавить</div>
+        <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
       <ProductsList/>
     </div>

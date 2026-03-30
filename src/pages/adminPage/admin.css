@@ -107,6 +107,14 @@
   align-items: center;
 }
 
+.edit-button {
+  cursor: pointer;
+}
+
+.delete-button {
+  cursor: pointer;
+}
+
 .modal-container {
   height: 100vh;
   width: 100vw;
