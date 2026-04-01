@@ -10,8 +10,8 @@ type NavElementProps = {
 }
 
 const NavElement = (props: NavElementProps) => {
-  const {setCurrentType} = useProducts(useShallow(state => ({
-    setCurrentType: state.setCurrentType
+  const {setCurrentCategory} = useProducts(useShallow(state => ({
+    setCurrentCategory: state.setCurrentCategory
   })))
 
   const [type, setType] = useState('');
@@ -39,7 +39,7 @@ const NavElement = (props: NavElementProps) => {
   }, [props.name]);
 
   return (
-    <div onClick={e => setCurrentType(type)} className='navElement'>{props.name}</div>
+    <div onClick={e => setCurrentCategory(type)} className='navElement'>{props.name}</div>
   )
 }
 
@@ -80,20 +80,20 @@ const Product = (props: ProductProps) => {
           }}
         />
         <img className='edit-button' onClick={() => {setModalDisplay('flex'), setSelectedProduct(product)}} src="src\assets\edit.svg" alt="" />
-        <img className='delete-button' onClick={() => {deleteProduct(props.id), console.log(products)}} src="src\assets\Trash.svg" alt="" />
+        <img className='delete-button' onClick={() => deleteProduct(props.id)} src="src\assets\Trash.svg" alt="" />
       </div>
     </div>
   )
 }
 
 const ProductsList = () => {
-  const {products, currentType} = useProducts(useShallow(state => ({
+  const {products, currentCategory} = useProducts(useShallow(state => ({
     products: state.products,
-    currentType: state.currentType
+    currentCategory: state.currentCategory
   })))
   return (
     <div className='products-container'>
-      {products.filter(product => product.type === currentType).map((product) => <Product id={product.id}/>)}
+      {products.filter(product => product.category === currentCategory).map((product) => <Product id={product.id}/>)}
     </div>
   )
 }

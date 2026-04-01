@@ -19,20 +19,48 @@ export const Modal = () => {
     setModalDisplay: state.setModalDisplay
   })))
 
+  	const handleCreate = () => {
+		if (name && category && price && description) {
+			setModalDisplay('none')
+			if (selectedProduct) {
+				updateProduct({
+					...selectedProduct,
+					category, 
+					name, 
+					description, 
+					prices: price.split('/').map((el) => parseInt(el))
+				})
+			}
+			else {
+				addProduct({
+					id: crypto.randomUUID(), 
+					category, 
+					name, 
+					prices: [parseInt(price)], 
+					url: "", 
+					isOn: true, 
+					description
+				})
+			}
+			setName(""), setCategory(""), setPrice(""), setDescription(""), setAlertVisibility('none'), setSelectedProduct(null)
+		}
+		else {setAlertVisibility('flex')}
+	}
+
 	useEffect(() => {
-    if (selectedProduct) {
-      setName(selectedProduct.name)
-      setCategory(selectedProduct.type)
-      setPrice(selectedProduct.prices.join('/'))
-      setDescription(selectedProduct.description)
-    } 
+		if (selectedProduct) {
+			setName(selectedProduct.name)
+			setCategory(selectedProduct.category)
+			setPrice(selectedProduct.prices.join('/'))
+			setDescription(selectedProduct.description)
+		} 
 		else {
-      setName('')
-      setCategory('')
-      setPrice('')
-      setDescription('')
-    }
-  }, [selectedProduct])
+			setName('')
+			setCategory('')
+			setPrice('')
+			setDescription('')
+		}
+	}, [selectedProduct])
 
 	return (
 		<div style={{display: display}} className="modal-container">
@@ -59,19 +87,8 @@ export const Modal = () => {
 				<div className="input-label">Описание</div>
 				<textarea className="input" value={description} onChange={e => {setDescription(e.target.value)}} style={{height: 140, resize:"none"}}></textarea>
 				<input type="file"/>
-				<div onClick={() => {
-					if (name && category && price && description) {
-						setModalDisplay('none')
-						if (selectedProduct) {
-							updateProduct({...selectedProduct, type: category, name, description, prices: price.split('/').map((el) => parseInt(el))})
-						}
-						else {
-							addProduct({id: crypto.randomUUID(), type: category, name, prices: [parseInt(price)], url: "", isOn: true, description})
-						}
-						setName(""), setCategory(""), setPrice(""), setDescription(""), setAlertVisibility('none'), setSelectedProduct(null)
-					}
-					else {setAlertVisibility('flex')}
-				}} className="submit-button">Добавить</div>
+
+				<div onClick={handleCreate} className="submit-button">Добавить</div>
 				<div className="alert" style={{display: alertVisibility}}>Заполнены не все поля!</div>
 			</div>
 		</div>

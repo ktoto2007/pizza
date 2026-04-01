@@ -3,7 +3,7 @@ import { mock } from './mock-data.ts'
 
 export type ProductType = {
     id: string
-    type: string
+    category: string
     name: string
     prices: number[]
     url: string
@@ -13,9 +13,9 @@ export type ProductType = {
 
 interface ProductsStore {
     products: ProductType[]
-    currentType: string
+    currentCategory: string
     addProduct: (newProduct: ProductType) => void
-    setCurrentType: (type: string) => void
+    setCurrentCategory: (type: string) => void
     selectedProduct: ProductType | null
     setSelectedProduct: (product: ProductType | null) => void
     updateProduct: (product: ProductType) => void
@@ -29,15 +29,15 @@ interface ModalStore {
 
 export const useProducts = create<ProductsStore>((set) => ({
     products: mock,
-    currentType: 'pizza',
+    currentCategory: 'pizza',
     addProduct: (newProduct) => {
         set(
             state=>({...state, products: [...state.products, newProduct]})
         )
     },
-    setCurrentType: (type) => {
+    setCurrentCategory: (category) => {
         set(
-            state=>({...state, currentType: type})
+            state=>({...state, currentCategory: category})
         )
     },
     selectedProduct: null,
