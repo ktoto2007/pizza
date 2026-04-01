@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useProducts, useModal, type ProductType } from "../stores"
+import { useProducts, useModal} from "../stores"
 import { useShallow } from "zustand/shallow"
 
 export const Modal = () => {
@@ -19,9 +19,18 @@ export const Modal = () => {
     setModalDisplay: state.setModalDisplay
   })))
 
+  	const handleClose = () => {
+		setModalDisplay('none')
+		setName("")
+		setCategory("")
+		setPrice("")
+		setDescription("")
+		setAlertVisibility('none')
+		setSelectedProduct(null)
+	}
+
   	const handleCreate = () => {
 		if (name && category && price && description) {
-			setModalDisplay('none')
 			if (selectedProduct) {
 				updateProduct({
 					...selectedProduct,
@@ -34,15 +43,15 @@ export const Modal = () => {
 			else {
 				addProduct({
 					id: crypto.randomUUID(), 
-					category, 
-					name, 
+					category,
+					name,
 					prices: [parseInt(price)], 
-					url: "", 
-					isOn: true, 
+					url: "",
+					isOn: true,
 					description
 				})
 			}
-			setName(""), setCategory(""), setPrice(""), setDescription(""), setAlertVisibility('none'), setSelectedProduct(null)
+			handleClose()
 		}
 		else {setAlertVisibility('flex')}
 	}
@@ -67,9 +76,7 @@ export const Modal = () => {
 			<div className="modal-content">
 				<div className="modal-header">
 					<div style={{fontSize: 32}}>Добавить</div>
-					<img className="closeButton" onClick={() => {
-						setModalDisplay('none'), setName(""), setCategory(""), setPrice(""), setDescription(""), setAlertVisibility('none'), setSelectedProduct(null)
-					}} src="src\assets\close.svg" alt=""/>
+					<img className="closeButton" onClick={handleClose} src="src\assets\close.svg" alt=""/>
 				</div>
 				<div className="input-label">Название</div>
 				<input value={name} onChange={e => {setName(e.target.value)}} className="input" type="text" placeholder="Название"/>
@@ -83,9 +90,18 @@ export const Modal = () => {
 					<option value="dessert">Десерты</option>
 				</select>
 				<div className="input-label">Цена</div>
-				<input value={price} onChange={e => {setPrice(e.target.value)}} className="input" type="text" placeholder="Цена"/>
+
+				<input value={price} onChange={e => {setPrice(e.target.value)}}
+						className="input"
+						type="text"
+						placeholder="Цена"/>
+
 				<div className="input-label">Описание</div>
-				<textarea className="input" value={description} onChange={e => {setDescription(e.target.value)}} style={{height: 140, resize:"none"}}></textarea>
+
+				<textarea className="input" value={description}
+						onChange={e => {setDescription(e.target.value)}}
+						style={{height: 140, resize:"none"}}/>
+
 				<input type="file"/>
 
 				<div onClick={handleCreate} className="submit-button">Добавить</div>
@@ -94,3 +110,7 @@ export const Modal = () => {
 		</div>
 	)
 }
+// добавить поиск с фильтрацией на все страницы с листингом
+// при нажатии на продукт открывать модалку со всеми данными объекта
+// сделать главную страницу пользователя
+// корзина, личный кабинет где можно посмотреть заказы, вход и регистрация
