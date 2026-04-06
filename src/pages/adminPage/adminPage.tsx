@@ -86,14 +86,23 @@ const Product = (props: ProductProps) => {
   )
 }
 
-const ProductsList = () => {
+type ProductsListProps = {
+  filterText: string
+}
+
+const ProductsList = (props: ProductsListProps) => {
   const {products, currentCategory} = useProducts(useShallow(state => ({
     products: state.products,
     currentCategory: state.currentCategory
   })))
   return (
     <div className='products-container'>
-      {products.filter(product => product.category === currentCategory).map((product) => <Product id={product.id}/>)}
+      if (props.filterText) {
+        products.filter(product => product.name.includes(props.filterText)).map((product) => <Product id={product.id}/>)
+      }
+      else {
+        products.filter(product => product.category === currentCategory).map((product) => <Product id={product.id}/>)
+      }
     </div>
   )
 }
@@ -102,6 +111,8 @@ export function Admin() {
   const {setModalDisplay} = useModal(useShallow(state => ({
     setModalDisplay: state.setModalDisplay
   })))
+
+  const [filterText, setFilterText] = useState('')
 
   return (
     <div className='container'>
@@ -119,7 +130,8 @@ export function Admin() {
         </div>
         <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
-      <ProductsList/>
+      <input type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
+      <ProductsList filterText={filterText}/>
     </div>
   )
 }
