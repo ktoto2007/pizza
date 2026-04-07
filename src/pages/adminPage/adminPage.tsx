@@ -60,6 +60,7 @@ const Product = (props: ProductProps) => {
 
   let product = products.find((product) => product.id === props.id) as ProductType
   let {name, prices, url} = product
+  
   return (
     <div className='product'>
       <div className='product-left'>
@@ -95,14 +96,22 @@ const ProductsList = (props: ProductsListProps) => {
     products: state.products,
     currentCategory: state.currentCategory
   })))
+
+  const renderContent = () => {
+    if (props.filterText === '') {
+      return products.filter((product) => product.category === currentCategory).map((product) => <Product id={product.id}/>)
+    }
+    else {
+      return products.filter(product => {
+        const regex = new RegExp(props.filterText, 'i')
+        return regex.test(product.name)
+      }).map((product) => <Product id={product.id}/>)
+    }
+  }
+
   return (
     <div className='products-container'>
-      if (props.filterText) {
-        products.filter(product => product.name.includes(props.filterText)).map((product) => <Product id={product.id}/>)
-      }
-      else {
-        products.filter(product => product.category === currentCategory).map((product) => <Product id={product.id}/>)
-      }
+      {renderContent()}
     </div>
   )
 }
@@ -130,7 +139,7 @@ export function Admin() {
         </div>
         <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
-      <input type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
+      <input className='search' type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
       <ProductsList filterText={filterText}/>
     </div>
   )
