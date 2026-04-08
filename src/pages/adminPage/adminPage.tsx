@@ -3,7 +3,8 @@ import { useShallow } from 'zustand/react/shallow'
 import { useModal, useProducts, type ProductType } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
-import { Modal } from '../../components/modal';
+import { Modal } from '../../components/modalCreate';
+import { ModalInfo } from '../../components/modalInfo';
 
 type NavElementProps = {
   name: string;
@@ -45,6 +46,7 @@ const NavElement = (props: NavElementProps) => {
 
 type ProductProps = {
   id: string
+  openModal: () => void
 }
 
 const Product = (props: ProductProps) => {
@@ -65,7 +67,7 @@ const Product = (props: ProductProps) => {
     <div className='product'>
       <div className='product-left'>
         <img className='product-img' src={url} alt="" />
-        <div className='product-name'>{name}</div>
+        <div onClick={() => {props.openModal(); setSelectedProduct(product)}} className='product-name'>{name}</div>
         <div className='product-price'>{prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
@@ -89,6 +91,7 @@ const Product = (props: ProductProps) => {
 
 type ProductsListProps = {
   filterText: string
+  openModal: () => void
 }
 
 const ProductsList = (props: ProductsListProps) => {
@@ -99,13 +102,13 @@ const ProductsList = (props: ProductsListProps) => {
 
   const renderContent = () => {
     if (props.filterText === '') {
-      return products.filter((product) => product.category === currentCategory).map((product) => <Product id={product.id}/>)
+      return products.filter((product) => product.category === currentCategory).map((product) => <Product openModal={props.openModal} id={product.id}/>)
     }
     else {
       return products.filter(product => {
         const regex = new RegExp(props.filterText, 'i')
         return regex.test(product.name)
-      }).map((product) => <Product id={product.id}/>)
+      }).map((product) => <Product openModal={props.openModal} id={product.id}/>)
     }
   }
 
@@ -123,12 +126,23 @@ export function Admin() {
 
   const [filterText, setFilterText] = useState('')
 
+  const [display, setDisplay] = useState('none')
+
+  const openModal = () => {
+    setDisplay('flex')
+  }
+
+  const closeModal = () => {
+    setDisplay('none')
+  }
+
   return (
     <div className='container'>
       <div className='header'>
         <div className='header-left'>
           <img className='logo' src="src\assets\logo.svg" alt="" />
-          <Modal></Modal>
+          <Modal/>
+          <ModalInfo display={display} onCloseButtonClick={closeModal}/>
           <div className='nav'>
             <NavElement name='Пиццы'/>
             <NavElement name='Комбо'/>
@@ -140,7 +154,7 @@ export function Admin() {
         <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
       <input className='search' type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
-      <ProductsList filterText={filterText}/>
+      <ProductsList filterText={filterText} openModal={openModal}/>
     </div>
   )
 }

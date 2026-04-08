@@ -110,6 +110,7 @@
 .product-name {
   font-size: 26px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .product-price {
