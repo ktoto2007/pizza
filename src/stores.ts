@@ -32,7 +32,7 @@ export const useProducts = create<ProductsStore>((set) => ({
     currentCategory: 'pizza',
     addProduct: (newProduct) => {
         set(
-            state=>({...state, products: [...state.products, newProduct]})
+            state=>({...state, products: [newProduct, ...state.products]})
         )
     },
     setCurrentCategory: (category) => {

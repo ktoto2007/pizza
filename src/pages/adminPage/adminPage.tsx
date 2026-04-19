@@ -92,6 +92,7 @@ const Product = (props: ProductProps) => {
 type ProductsListProps = {
   filterText: string
   openModal: () => void
+  sortType: string
 }
 
 const ProductsList = (props: ProductsListProps) => {
@@ -100,9 +101,23 @@ const ProductsList = (props: ProductsListProps) => {
     currentCategory: state.currentCategory
   })))
 
+  const sortMap: Record<string, (a: ProductType, b: ProductType) => number> = {
+    "price-asc": (a, b) => a.prices[0] - b.prices[0],
+    "price-desc": (a, b) => b.prices[0] - a.prices[0],
+
+    "name-asc": (a, b) => a.name.localeCompare(b.name),
+    "name-desc": (a, b) => b.name.localeCompare(a.name),
+  }
+
   const renderContent = () => {
     if (props.filterText === '') {
-      return products.filter((product) => product.category === currentCategory).map((product) => <Product openModal={props.openModal} id={product.id}/>)
+      if (props.sortType !== 'none') {
+        return products.filter((product) => product.category === currentCategory)
+        .sort(sortMap[props.sortType])
+        .map((product) => <Product openModal={props.openModal} id={product.id}/>)
+      }
+      return products.filter((product) => product.category === currentCategory)
+      .map((product) => <Product openModal={props.openModal} id={product.id}/>)
     }
     else {
       return products.filter(product => {
@@ -126,7 +141,11 @@ export function Admin() {
 
   const [filterText, setFilterText] = useState('')
 
+  const [sortVisibility, setSortVisibility] = useState<React.CSSProperties['visibility']>('hidden')
+
   const [display, setDisplay] = useState('none')
+
+  const [sortType, setSortType] = useState('none')
 
   const openModal = () => {
     setDisplay('flex')
@@ -153,8 +172,20 @@ export function Admin() {
         </div>
         <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
-      <input className='search' type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
-      <ProductsList filterText={filterText} openModal={openModal}/>
+      <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+        <input className='search' type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
+        <div className='content-hover' onMouseLeave={() => setSortVisibility('hidden')}>
+          <img onMouseEnter={() => setSortVisibility('visible')} className='sorting' src="src\assets\sort.svg" alt="" />
+          <div style={{visibility: sortVisibility}} className='sortList'>
+            <div className='sort-text bt' onClick={() => setSortType('none')}>По новизне</div>
+            <div className='sort-text' onClick={() => setSortType('price-asc')}>По возрастанию цены</div>
+            <div className='sort-text' onClick={() => setSortType('price-desc')}>По убыванию цены</div>
+            <div className='sort-text' onClick={() => setSortType('name-asc')}>А-Я</div>
+            <div className='sort-text bb' onClick={() => setSortType('name-desc')}>Я-А</div>
+          </div>
+        </div>
+      </div>
+      <ProductsList sortType={sortType} filterText={filterText} openModal={openModal}/>
     </div>
   )
 }
