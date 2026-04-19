@@ -1,56 +1,74 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useProducts } from "../../stores"
+import { useModal, useProducts, type ProductType } from "../../stores"
 import Switch from '@mui/material/Switch';
 import './admin.css'
+import { Modal } from '../../components/modalCreate';
+import { ModalInfo } from '../../components/modalInfo';
 
 type NavElementProps = {
   name: string;
 }
 
 const NavElement = (props: NavElementProps) => {
-  const {setCurrentType} = useProducts(useShallow(state => ({
-    setCurrentType: state.setCurrentType
+  const {setCurrentCategory} = useProducts(useShallow(state => ({
+    setCurrentCategory: state.setCurrentCategory
   })))
 
-  let type: string
-  switch (props.name) {
-    case 'Пиццы':
-      type = 'pizza'
-      break;
-    case 'Комбо':
-      type = 'combo'
-      break;
-    case 'Напитки':
-      type = 'drink'
-      break;
-    case 'Десерты':
-      type = 'dessert'
-      break;
-    case 'Закуски':
-      type = 'snack'
-      break;
-  }
+  const [type, setType] = useState('');
+
+  useEffect(() => {
+    switch (props.name) {
+      case 'Пиццы':
+        setType('pizza');
+        break;
+      case 'Комбо':
+        setType('combo');
+        break;
+      case 'Напитки':
+        setType('drink');
+        break;
+      case 'Десерты':
+        setType('dessert');
+        break;
+      case 'Закуски':
+        setType('snack');
+        break;
+      default:
+        setType('');
+    }
+  }, [props.name]);
+
   return (
-    <div onClick={e => setCurrentType(type)} className='navElement'>{props.name}</div>
+    <div onClick={e => setCurrentCategory(type)} className='navElement'>{props.name}</div>
   )
 }
 
 type ProductProps = {
-  type: string
-  name: string;
-  prices: number[];
-  url: string;
-  isOn: boolean
+  id: string
+  openModal: () => void
 }
 
 const Product = (props: ProductProps) => {
+  const {products, setSelectedProduct, deleteProduct} = useProducts(useShallow(state => ({
+    products: state.products,
+    setSelectedProduct: state.setSelectedProduct,
+    deleteProduct: state.deleteProduct
+  })))
+
+  const {setModalDisplay} = useModal(useShallow(state => ({
+    setModalDisplay: state.setModalDisplay
+  })))
+
+  let product = products.find((product) => product.id === props.id) as ProductType
+  let {name, prices, url} = product
+  
   return (
     <div className='product'>
       <div className='product-left'>
-        <img className='product-img' src={props.url} alt="" />
-        <div className='product-name'>{props.name}</div>
-        <div className='product-price'>{props.prices.join('/')}₽</div>
+        <img className='product-img' src={url} alt="" />
+        <div onClick={() => {props.openModal(); setSelectedProduct(product)}} className='product-name'>{name}</div>
+        <div className='product-price'>{prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
         <Switch disableRipple defaultChecked
@@ -64,31 +82,86 @@ const Product = (props: ProductProps) => {
             },
           }}
         />
-        <img className='edit-button' src="src\assets\Edit (1).svg" alt="" />
-        <img className='delete-button' src="src\assets\Trash.svg" alt="" />
+        <img className='edit-button' onClick={() => {setModalDisplay('flex'), setSelectedProduct(product)}} src="src\assets\edit.svg" alt="" />
+        <img className='delete-button' onClick={() => deleteProduct(props.id)} src="src\assets\Trash.svg" alt="" />
       </div>
     </div>
   )
 }
 
-const ProductsList = () => {
-  const {products, currentType} = useProducts(useShallow(state => ({
+type ProductsListProps = {
+  filterText: string
+  openModal: () => void
+  sortType: string
+}
+
+const ProductsList = (props: ProductsListProps) => {
+  const {products, currentCategory} = useProducts(useShallow(state => ({
     products: state.products,
-    currentType: state.currentType
+    currentCategory: state.currentCategory
   })))
+
+  const sortMap: Record<string, (a: ProductType, b: ProductType) => number> = {
+    "price-asc": (a, b) => a.prices[0] - b.prices[0],
+    "price-desc": (a, b) => b.prices[0] - a.prices[0],
+
+    "name-asc": (a, b) => a.name.localeCompare(b.name),
+    "name-desc": (a, b) => b.name.localeCompare(a.name),
+  }
+
+  const renderContent = () => {
+    if (props.filterText === '') {
+      if (props.sortType !== 'none') {
+        return products.filter((product) => product.category === currentCategory)
+        .sort(sortMap[props.sortType])
+        .map((product) => <Product openModal={props.openModal} id={product.id}/>)
+      }
+      return products.filter((product) => product.category === currentCategory)
+      .map((product) => <Product openModal={props.openModal} id={product.id}/>)
+    }
+    else {
+      return products.filter(product => {
+        const regex = new RegExp(props.filterText, 'i')
+        return regex.test(product.name)
+      }).map((product) => <Product openModal={props.openModal} id={product.id}/>)
+    }
+  }
+
   return (
     <div className='products-container'>
-      {products.filter(product => product.type === currentType).map((product) => <Product {...product}/>)}
+      {renderContent()}
     </div>
   )
 }
 
 export function Admin() {
+  const {setModalDisplay} = useModal(useShallow(state => ({
+    setModalDisplay: state.setModalDisplay
+  })))
+
+  const [filterText, setFilterText] = useState('')
+
+  const [sortVisibility, setSortVisibility] = useState<React.CSSProperties['visibility']>('hidden')
+
+  const [display, setDisplay] = useState('none')
+
+  const [sortType, setSortType] = useState('none')
+
+  const openModal = () => {
+    setDisplay('flex')
+  }
+
+  const closeModal = () => {
+    setDisplay('none')
+  }
+
   return (
     <div className='container'>
       <div className='header'>
         <div className='header-left'>
-          <img className='logo' src="src\assets\Pizza (1).svg" alt="" />
+          <img className='logo' src="src\assets\logo.svg" alt="" />
+          <Modal/>
+          <ModalInfo display={display} onCloseButtonClick={closeModal}/>
           <div className='nav'>
             <NavElement name='Пиццы'/>
             <NavElement name='Комбо'/>
@@ -97,9 +170,22 @@ export function Admin() {
             <NavElement name='Десерты'/>
           </div>
         </div>
-        <div className='addButton'>Добавить</div>
+        <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
-      <ProductsList/>
+      <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+        <input className='search' type="text" placeholder='Поиск' onChange={e => {setFilterText(e.target.value)}}/>
+        <div className='content-hover' onMouseLeave={() => setSortVisibility('hidden')}>
+          <img onMouseEnter={() => setSortVisibility('visible')} className='sorting' src="src\assets\sort.svg" alt="" />
+          <div style={{visibility: sortVisibility}} className='sortList'>
+            <div className='sort-text bt' onClick={() => setSortType('none')}>По новизне</div>
+            <div className='sort-text' onClick={() => setSortType('price-asc')}>По возрастанию цены</div>
+            <div className='sort-text' onClick={() => setSortType('price-desc')}>По убыванию цены</div>
+            <div className='sort-text' onClick={() => setSortType('name-asc')}>А-Я</div>
+            <div className='sort-text bb' onClick={() => setSortType('name-desc')}>Я-А</div>
+          </div>
+        </div>
+      </div>
+      <ProductsList sortType={sortType} filterText={filterText} openModal={openModal}/>
     </div>
   )
 }
