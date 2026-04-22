@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100vh;
+  background-color: #ffffff;
+  width: 80vw;
+}
