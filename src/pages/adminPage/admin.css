@@ -193,14 +193,14 @@
   left: 0px;
   top: 0px;
   z-index: 10;
-  padding-right: 15px;
+  padding-right: 20px;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 450px;
+  width: 400px;
   height: 80vh;
   background-color: #131313;
   color: white;
@@ -210,7 +210,7 @@
   scrollbar-width: none;
   padding: 10px;
   padding-left: 20px;
-  padding-top: 20px;
+  padding-top: 15px;
 }
 
 .modal-header {
@@ -227,7 +227,6 @@
 .input {
   border-radius: 13px;
   height: 35px;
-  width: 400px;
   background-color: #181818;
   border-width: 0px;
   color: #CFCFCF;
@@ -244,9 +243,7 @@
   background-color: #181818;
   border-width: 0px;
   color: #CFCFCF;
-  height: 35px;
-  width: 95%;
-  padding: 5px;
+  padding: 9.5px;
 }
 
 .category-select:focus {
@@ -261,13 +258,12 @@
   display: flex;
   font-size: 16px;
   gap: 10px;
-  width: 400px;
   flex-wrap: wrap;
 }
 
 .radio-box {
   height: 50px;
-  width: 125px;
+  width: 116px;
   accent-color: #ff6900;
   background-color: #181818;
   border-radius: 12px;
@@ -288,18 +284,42 @@
 .variants {
   display: flex;
   flex-direction: column;
-  width: 400px;
-  gap: 10px;
+  gap: 15px;
   background-color: #181818;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 12px;
-  padding: 10px 0 10px 10px;
-  word-spacing: 10px;
+  padding: 10px 10px 10px 10px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  min-height: 60px;
+  max-height: 310px;
+  flex-shrink: 0;
 }
 
 .variant-row {
   display: flex;
-  gap: 10px;
+  gap: 5px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.variant-row input {
+  border-color: #282828;
+}
+
+.delete-variant-btn {
+  height: 30px;
+}
+
+.add-variant-btn {
+  display: flex;
+  border: 2px #282828 dashed;
+  border-radius: 12px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .submit-button {

@@ -21,6 +21,45 @@ const RadioButtons = (props: RadioButtonsType) => {
 		</div>
 	)
 }
+type VariantRowProps = {
+	variant: {
+    value: string;
+    price: string;
+    weight: string;
+	}
+	index: number
+	updateVariant: (index: number, field: string, newValue: string) => void
+	removeVariant: (index: number) => void
+	type: "Размер" | "Объем" | "Количество"
+}
+const VariantRow = (props: VariantRowProps) => {
+	return (
+		<div className="variant-row">
+			<input className="input"
+				style={{width: 155}}
+				type="text"
+				value={props.variant.value}
+				onChange={(e) => props.updateVariant(props.index, "value", e.target.value)}
+				placeholder={props.type} 
+			/>
+			<input className="input"
+				style={{width: 90}}
+				type="text"
+				value={props.variant.price}
+				onChange={(e) => props.updateVariant(props.index, "price", e.target.value)}
+				placeholder="Цена"
+			/>
+			<input className="input"
+				style={{width: 65}}
+				type="text"
+				value={props.variant.weight}
+				onChange={(e) => props.updateVariant(props.index, "weight", e.target.value)}
+				placeholder="Вес"
+			/>
+			<img className="delete-variant-btn" src="src\assets\Trash.svg" alt="" onClick={() => props.removeVariant(props.index)}/>
+		</div>
+	)
+}
 
 export const Modal = () => {
 	const [name, setName] = useState('')
@@ -39,7 +78,7 @@ export const Modal = () => {
     setModalDisplay: state.setModalDisplay
   })))
 
-  	const handleClose = () => {
+  const handleClose = () => {
 		setModalDisplay('none')
 		setName("")
 		setCategory("")
@@ -49,7 +88,7 @@ export const Modal = () => {
 		setSelectedProduct(null)
 	}
 
-  	const handleCreate = () => {
+  const handleCreate = () => {
 		if (name && category && price && description) {
 			if (selectedProduct) {
 				updateProduct({
@@ -143,7 +182,6 @@ export const Modal = () => {
 
 		setVariants(
 			template.map(v => ({
-				id: crypto.randomUUID(),
 				...v
 			}))
 		)
@@ -156,9 +194,9 @@ export const Modal = () => {
 					<div style={{fontSize: 32}}>Добавить</div>
 					<img className="closeButton" onClick={handleClose} src="src\assets\close.svg" alt=""/>
 				</div>
-				<div className="input-div">Название</div>
+				<div className="input-label">Название</div>
 				<input value={name} onChange={e => {setName(e.target.value)}} className="input" type="text" placeholder="Название"/>
-				<div className="input-div">Категория</div>
+				<div className="input-label">Категория</div>
 				<select value={category} onChange={e => {setCategory(e.target.value)}} className="category-select">
 					<option value="">Категория</option>
 					<option value="pizza">Пицца</option>
@@ -171,37 +209,11 @@ export const Modal = () => {
 				<RadioButtons type={type} setType={setType}/>
 				<div>Вариации</div>
 				<div className="variants">
-					{type} Цены Вес
-					{variants.map((v, index) => (
-						<div className="variant-row">
-							<input className="input"
-								style={{width: 150}}
-								type="text"
-								value={v.value}
-								onChange={(e) => updateVariant(index, "value", e.target.value)}
-								placeholder={type} 
-							/>
-							<input className="input"
-								style={{width: 100}}
-								type="text"
-								value={v.price}
-								onChange={(e) => updateVariant(index, "price", e.target.value)}
-								placeholder="Цена"
-							/>
-							<input className="input"
-								style={{width: 75}}
-								type="text"
-								value={v.weight}
-								onChange={(e) => updateVariant(index, "weight", e.target.value)}
-								placeholder="Вес"
-							/>
-							<img className="delete-variant-btn" src="src\assets\Trash.svg" alt="" onClick={() => removeVariant(index)}/>
-						</div>
-					))}
+					{variants.map((v, index) => <VariantRow variant={v} index={index} type={type} removeVariant={removeVariant} updateVariant={updateVariant}/>)}
 					<div className="add-variant-btn" onClick={addVariant}>+ Добавить {type.toLowerCase()}</div>
 				</div>
 
-				<div className="input-div">Описание</div>
+				<div className="input-label">Описание</div>
 
 				<textarea className="input" value={description}
 						onChange={e => {setDescription(e.target.value)}}
