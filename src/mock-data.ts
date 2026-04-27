@@ -1,80 +1,138 @@
-export const mock = [{ id: crypto.randomUUID(), category: "pizza", name: "Маргарита", prices: [399, 599, 799], url: "src/assets/pizza.svg", description: "Классическая итальянская пицца с томатным соусом, моцареллой и базиликом", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Пепперони", prices: [499, 699, 899], url: "src/assets/pizza.svg", description: "Пикантная пицца с пепперони, моцареллой и томатным соусом", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Четыре сыра", prices: [549, 749, 949], url: "src/assets/pizza.svg", description: "Моцарелла, пармезан, горгонзола и рикотта", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Гавайская", prices: [479, 679, 879], url: "src/assets/pizza.svg", description: "Ветчина, ананасы и сыр моцарелла", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Мясная", prices: [599, 799, 999], url: "src/assets/pizza.svg", description: "Колбаса, бекон, ветчина и соус BBQ", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Вегетарианская", prices: [459, 659, 859], url: "src/assets/pizza.svg", description: "Овощи, грибы, томаты и сыр", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Барбекю", prices: [529, 729, 929], url: "src/assets/pizza.svg", description: "Курица, соус BBQ, лук и сыр", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Морская", prices: [629, 829, 1029], url: "src/assets/pizza.svg", description: "Креветки, кальмары, мидии и чесночный соус", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Острая мексиканская", prices: [549, 749, 949], url: "src/assets/pizza.svg", description: "Халапеньо, фарш, перец чили и соус", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Карбонара", prices: [519, 719, 919], url: "src/assets/pizza.svg", description: "Бекон, сливочный соус, сыр и яйцо", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Прошутто", prices: [569, 769, 969], url: "src/assets/pizza.svg", description: "Ветчина прошутто, руккола и пармезан", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Чизбургер пицца", prices: [599, 799, 999], url: "src/assets/pizza.svg", description: "Говядина, сыр, огурцы и соус", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Трюфельная", prices: [699, 899, 1099], url: "src/assets/pizza.svg", description: "Трюфельный соус, грибы и сыр", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Салями", prices: [499, 699, 899], url: "src/assets/pizza.svg", description: "Салями, сыр и томатный соус", isOn: true },
-  { id: crypto.randomUUID(), category: "pizza", name: "Курица и грибы", prices: [519, 719, 919], url: "src/assets/pizza.svg", description: "Курица, шампиньоны и сливочный соус", isOn: true },
+export const mock = [
+  {id: crypto.randomUUID(), category: "pizza", name: "Маргарита",
+    variants: [
+      { value: "25 см", price: "399", weight: "350 г" },
+      { value: "30 см", price: "549", weight: "500 г" },
+      { value: "35 см", price: "699", weight: "650 г" },
+    ], url: "src/assets/pizza.svg", description: "Классическая пицца с томатным соусом и моцареллой", isOn: true,},
 
-  { id: crypto.randomUUID(), category: "combo", name: "Комбо №1", prices: [799], url: "src/assets/pizza.svg", description: "Пицца + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Комбо №2", prices: [899], url: "src/assets/pizza.svg", description: "2 пиццы + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Комбо для двоих", prices: [1199, 1399], url: "src/assets/pizza.svg", description: "2 пиццы + 2 напитка", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Семейное комбо", prices: [1499, 1699], url: "src/assets/pizza.svg", description: "3 пиццы + напитки", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Ланч комбо", prices: [599], url: "src/assets/pizza.svg", description: "Мини пицца + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Студенческое", prices: [699], url: "src/assets/pizza.svg", description: "Пицца + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Вечернее комбо", prices: [999, 1199], url: "src/assets/pizza.svg", description: "Пицца + закуски", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Комбо с десертом", prices: [1099], url: "src/assets/pizza.svg", description: "Пицца + десерт + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Офисное", prices: [899], url: "src/assets/pizza.svg", description: "Пицца на команду", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Френдс комбо", prices: [1299, 1499], url: "src/assets/pizza.svg", description: "3 пиццы + напитки", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Геймерское", prices: [799], url: "src/assets/pizza.svg", description: "Пицца + закуски", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Премиум комбо", prices: [1599, 1799], url: "src/assets/pizza.svg", description: "Премиум пиццы + напитки", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Мини комбо", prices: [499], url: "src/assets/pizza.svg", description: "Мини пицца + напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Двойное удовольствие", prices: [999], url: "src/assets/pizza.svg", description: "2 пиццы", isOn: true },
-  { id: crypto.randomUUID(), category: "combo", name: "Комбо XXL", prices: [1799, 1999], url: "src/assets/pizza.svg", description: "3 большие пиццы + напитки", isOn: true },
+  {id: crypto.randomUUID(), category: "pizza", name: "Пепперони",
+    variants: [
+      { value: "25 см", price: "449", weight: "360 г" },
+      { value: "30 см", price: "599", weight: "520 г" },
+      { value: "35 см", price: "749", weight: "680 г" },
+    ], url: "src/assets/pizza.svg", description: "Острая пицца с пепперони и сыром", isOn: true,},
 
-  { id: crypto.randomUUID(), category: "drink", name: "Кола", prices: [99], url: "src/assets/drink.svg", description: "Газированный напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Фанта", prices: [99], url: "src/assets/drink.svg", description: "Апельсиновый напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Спрайт", prices: [99], url: "src/assets/drink.svg", description: "Лимонный напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Вода", prices: [59], url: "src/assets/drink.svg", description: "Минеральная вода", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Сок яблочный", prices: [129, 159], url: "src/assets/drink.svg", description: "Натуральный сок", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Сок апельсиновый", prices: [129], url: "src/assets/drink.svg", description: "Свежий сок", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Чай", prices: [89], url: "src/assets/drink.svg", description: "Горячий чай", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Кофе", prices: [119, 149], url: "src/assets/drink.svg", description: "Ароматный кофе", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Лимонад", prices: [109], url: "src/assets/drink.svg", description: "Освежающий напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Энергетик", prices: [149, 179], url: "src/assets/drink.svg", description: "Энергетический напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Молочный коктейль", prices: [159], url: "src/assets/drink.svg", description: "Сладкий коктейль", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Капучино", prices: [149], url: "src/assets/drink.svg", description: "Кофейный напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Латте", prices: [159, 189], url: "src/assets/drink.svg", description: "Мягкий кофе", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Тоник", prices: [119], url: "src/assets/drink.svg", description: "Горьковатый напиток", isOn: true },
-  { id: crypto.randomUUID(), category: "drink", name: "Морс", prices: [99], url: "src/assets/drink.svg", description: "Ягодный напиток", isOn: true },
+  {id: crypto.randomUUID(), category: "pizza", name: "Четыре сыра",
+    variants: [
+      { value: "25 см", price: "459", weight: "340 г" },
+      { value: "30 см", price: "629", weight: "500 г" },
+      { value: "35 см", price: "789", weight: "660 г" },
+    ], url: "src/assets/pizza.svg", description: "Смесь четырёх видов сыра", isOn: true,},
 
-  { id: crypto.randomUUID(), category: "dessert", name: "Чизкейк", prices: [199, 249], url: "src/assets/dessert.svg", description: "Нежный чизкейк", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Тирамису", prices: [229], url: "src/assets/dessert.svg", description: "Итальянский десерт", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Мороженое", prices: [99], url: "src/assets/dessert.svg", description: "Сливочное мороженое", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Брауни", prices: [149], url: "src/assets/dessert.svg", description: "Шоколадный десерт", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Панкейк", prices: [179, 219], url: "src/assets/dessert.svg", description: "Сладкие панкейки", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Маффин", prices: [119], url: "src/assets/dessert.svg", description: "Кекс с начинкой", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Пирожное", prices: [129], url: "src/assets/dessert.svg", description: "Сладкое пирожное", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Штрудель", prices: [199, 239], url: "src/assets/dessert.svg", description: "Яблочный десерт", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Эклер", prices: [139], url: "src/assets/dessert.svg", description: "Заварное пирожное", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Профитроли", prices: [159, 189], url: "src/assets/dessert.svg", description: "Маленькие пирожные", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Сырники", prices: [149], url: "src/assets/dessert.svg", description: "Творожные сырники", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Пудинг", prices: [129], url: "src/assets/dessert.svg", description: "Нежный десерт", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Фруктовый салат", prices: [139], url: "src/assets/dessert.svg", description: "Свежие фрукты", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Шоколадный торт", prices: [249, 299], url: "src/assets/dessert.svg", description: "Торт с шоколадом", isOn: true },
-  { id: crypto.randomUUID(), category: "dessert", name: "Круассан", prices: [99], url: "src/assets/dessert.svg", description: "Слоёная выпечка", isOn: true },
+  {id: crypto.randomUUID(), category: "pizza", name: "Гавайская",
+    variants: [
+      { value: "25 см", price: "429", weight: "360 г" },
+      { value: "30 см", price: "579", weight: "520 г" },
+      { value: "35 см", price: "739", weight: "680 г" },
+    ], url: "src/assets/pizza.svg", description: "Курица и ананасы", isOn: true,},
 
-  { id: crypto.randomUUID(), category: "snack", name: "Картофель фри", prices: [149], url: "src/assets/snack.svg", description: "Хрустящий картофель", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Наггетсы", prices: [179, 229], url: "src/assets/snack.svg", description: "Куриные наггетсы", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Крылышки", prices: [199], url: "src/assets/snack.svg", description: "Острые куриные крылья", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Луковые кольца", prices: [139], url: "src/assets/snack.svg", description: "Жареные кольца", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Сырные палочки", prices: [169, 219], url: "src/assets/snack.svg", description: "Сыр в панировке", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Чесночный хлеб", prices: [129], url: "src/assets/snack.svg", description: "Хрустящий хлеб", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Начос", prices: [159], url: "src/assets/snack.svg", description: "Чипсы с соусом", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Хот-дог", prices: [179], url: "src/assets/snack.svg", description: "Сосиска в булке", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Бургер мини", prices: [199, 249], url: "src/assets/snack.svg", description: "Мини бургер", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Сэндвич", prices: [169], url: "src/assets/snack.svg", description: "Бутерброд с начинкой", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Попкорн", prices: [99], url: "src/assets/snack.svg", description: "Солёный попкорн", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Креветки в кляре", prices: [229, 279], url: "src/assets/snack.svg", description: "Жареные креветки", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Сырные шарики", prices: [159], url: "src/assets/snack.svg", description: "Фритюрный сыр", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Пельмени жареные", prices: [199], url: "src/assets/snack.svg", description: "Хрустящие пельмени", isOn: true },
-  { id: crypto.randomUUID(), category: "snack", name: "Кесадилья", prices: [229], url: "src/assets/snack.svg", description: "Мексиканская закуска", isOn: true },
+  {id: crypto.randomUUID(), category: "pizza", name: "BBQ Курица",
+    variants: [
+      { value: "25 см", price: "459", weight: "380 г" },
+      { value: "30 см", price: "619", weight: "540 г" },
+      { value: "35 см", price: "779", weight: "700 г" },
+    ], url: "src/assets/pizza.svg", description: "Курица с соусом BBQ", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "combo", name: "Комбо для двоих",
+    variants: [{ value: "1 набор", price: "599", weight: "900 г" }],
+    url: "src/assets/combo.svg", description: "Пицца, напитки и закуски на двоих", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "combo", name: "Семейное комбо",
+    variants: [{ value: "1 набор", price: "899", weight: "1500 г" }],
+    url: "src/assets/combo.svg", description: "Большой набор для всей семьи", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "combo", name: "Студенческое комбо",
+    variants: [{ value: "1 набор", price: "399", weight: "800 г" }],
+    url: "src/assets/combo.svg", description: "Бюджетный набор для студентов", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "combo", name: "Комбо с пепперони",
+    variants: [{ value: "1 набор", price: "649", weight: "1000 г" }],
+    url: "src/assets/combo.svg", description: "Пицца пепперони + напиток + закуска", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "combo", name: "Фирменное комбо",
+    variants: [{ value: "1 набор", price: "799", weight: "1200 г" }],
+    url: "src/assets/combo.svg", description: "Фирменный набор от шефа", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "snack", name: "Картофель фри",
+    variants: [
+      { value: "Мал", price: "149", weight: "120 г" },
+      { value: "Больш", price: "199", weight: "180 г" },
+    ], url: "src/assets/snack.svg", description: "Хрустящий картофель фри", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "snack", name: "Наггетсы",
+    variants: [
+      { value: "6 шт", price: "179", weight: "150 г" },
+      { value: "9 шт", price: "229", weight: "220 г" },
+      { value: "12 шт", price: "279", weight: "300 г" },
+    ], url: "src/assets/snack.svg", description: "Куриные наггетсы", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "snack", name: "Крылышки BBQ",
+    variants: [{ value: "6 шт", price: "249", weight: "250 г" }],
+    url: "src/assets/snack.svg", description: "Острые крылышки с BBQ соусом", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "snack", name: "Сырные палочки",
+    variants: [{ value: "6 шт", price: "219", weight: "180 г" }],
+    url: "src/assets/snack.svg", description: "Растянутый сыр в хрустящей панировке", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "snack", name: "Креветки темпура",
+    variants: [
+      { value: "6 шт", price: "299", weight: "120 г" },
+      { value: "12 шт", price: "499", weight: "240 г" },
+    ], url: "src/assets/snack.svg", description: "Креветки в хрустящей темпуре", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "dessert", name: "Чизкейк",
+    variants: [{ value: "1 порция", price: "199", weight: "120 г" }],
+    url: "src/assets/dessert.svg", description: "Нежный сливочный чизкейк", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "dessert", name: "Тирамису",
+    variants: [
+      { value: "1 порция", price: "229", weight: "130 г" },
+      { value: "2 порции", price: "399", weight: "260 г" },
+      { value: "4 порции", price: "699", weight: "520 г" },
+    ], url: "src/assets/dessert.svg", description: "Итальянский десерт с кофе и маскарпоне", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "dessert", name: "Шоколадный фондан",
+    variants: [{ value: "1 порция", price: "249", weight: "140 г" }],
+    url: "src/assets/dessert.svg", description: "Тёплый шоколадный десерт с жидкой начинкой", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "dessert", name: "Мороженое пломбир",
+    variants: [{ value: "1 шар", price: "99", weight: "60 г" }],
+    url: "src/assets/dessert.svg", description: "Классическое сливочное мороженое", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "dessert", name: "Медовик",
+    variants: [{ value: "1 порция", price: "189", weight: "130 г" }],
+    url: "src/assets/dessert.svg", description: "Домашний торт с мёдом", isOn: true,},
+
+  // ======================= DRINK =======================
+  {id: crypto.randomUUID(), category: "drink", name: "Кола",
+    variants: [
+      { value: "0.3 л", price: "99", weight: "300 мл" },
+      { value: "0.5 л", price: "129", weight: "500 мл" },
+      { value: "1 л", price: "179", weight: "1000 мл" },
+    ], url: "src/assets/drink.svg", description: "Освежающая газировка", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "drink", name: "Лимонад",
+    variants: [
+      { value: "0.3 л", price: "99", weight: "300 мл" },
+      { value: "0.5 л", price: "129", weight: "500 мл" },
+    ], url: "src/assets/drink.svg", description: "Домашний лимонад", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "drink", name: "Апельсиновый сок",
+    variants: [
+      { value: "0.3 л", price: "109", weight: "300 мл" },
+      { value: "0.5 л", price: "149", weight: "500 мл" },
+    ], url: "src/assets/drink.svg", description: "Свежевыжатый сок", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "drink", name: "Чай холодный",
+    variants: [
+      { value: "0.3 л", price: "89", weight: "300 мл" },
+      { value: "0.5 л", price: "119", weight: "500 мл" },
+    ], url: "src/assets/drink.svg", description: "Охлаждённый чай", isOn: true,},
+
+  {id: crypto.randomUUID(), category: "drink", name: "Кофе латте",
+    variants: [
+      { value: "0.3 л", price: "149", weight: "300 мл" },
+      { value: "0.5 л", price: "199", weight: "500 мл" },
+    ], url: "src/assets/drink.svg", description: "Кофе с молоком", isOn: true,},
 ];

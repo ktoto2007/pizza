@@ -64,7 +64,6 @@ const VariantRow = (props: VariantRowProps) => {
 export const Modal = () => {
 	const [name, setName] = useState('')
 	const [category, setCategory] = useState('')
-	const [price, setPrice] = useState('')
 	const [description, setDescription] = useState('')
 	const [alertVisibility, setAlertVisibility] = useState('none')
 	const {addProduct, setSelectedProduct, selectedProduct, updateProduct} = useProducts(useShallow(state => ({
@@ -82,21 +81,21 @@ export const Modal = () => {
 		setModalDisplay('none')
 		setName("")
 		setCategory("")
-		setPrice("")
+		setVariants([{ value: "", price: "", weight: "" },])
 		setDescription("")
 		setAlertVisibility('none')
 		setSelectedProduct(null)
 	}
 
   const handleCreate = () => {
-		if (name && category && price && description) {
+		if (name && category && variants && description) {
 			if (selectedProduct) {
 				updateProduct({
 					...selectedProduct,
 					category, 
 					name, 
 					description, 
-					prices: price.split('/').map((el) => parseInt(el))
+					variants
 				})
 			}
 			else {
@@ -104,7 +103,7 @@ export const Modal = () => {
 					id: crypto.randomUUID(), 
 					category,
 					name,
-					prices: [parseInt(price)], 
+					variants,
 					url: "",
 					isOn: true,
 					description
@@ -114,18 +113,18 @@ export const Modal = () => {
 		}
 		else {setAlertVisibility('flex')}
 	}
-
+	
 	useEffect(() => {
 		if (selectedProduct) {
 			setName(selectedProduct.name)
 			setCategory(selectedProduct.category)
-			setPrice(selectedProduct.prices.join('/'))
+			setVariants(selectedProduct.variants)
 			setDescription(selectedProduct.description)
 		} 
 		else {
 			setName('')
 			setCategory('')
-			setPrice('')
+			setVariants([{ value: "", price: "", weight: "" },])
 			setDescription('')
 		}
 	}, [selectedProduct])

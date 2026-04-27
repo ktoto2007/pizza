@@ -18,7 +18,7 @@ export const ModalInfo = (props: ModalInfoProps) => {
                 <img className="modal-left" src={selectedProduct?.url} alt="" />
                 <div className="modal-right">
                     <div>{selectedProduct?.name}</div>
-                    <div>{selectedProduct?.prices}</div>
+                    <div>{selectedProduct?.variants.map(v => v.price).join('/')}</div>
                     <div>{selectedProduct?.description}</div>
                 </div>
                 <img onClick={() => {setSelectedProduct(null); props.onCloseButtonClick()}} className="closeButton" src="src\assets\close.svg" alt="" />

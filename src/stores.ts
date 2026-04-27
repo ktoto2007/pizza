@@ -5,7 +5,11 @@ export type ProductType = {
     id: string
     category: string
     name: string
-    prices: number[]
+    variants: {
+        value: string;
+        price: string;
+        weight: string;
+    }[]
     url: string
     description: string
     isOn: boolean

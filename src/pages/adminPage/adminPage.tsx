@@ -60,8 +60,9 @@ const Product = (props: ProductProps) => {
     setModalDisplay: state.setModalDisplay
   })))
 
-  let product = products.find((product) => product.id === props.id) as ProductType
-  let {name, prices, url} = product
+  const product = products.find((product) => product.id === props.id) as ProductType
+  const {name, variants, url} = product
+  const prices = variants.map((v) => v.price)
   
   return (
     <div className='product'>
@@ -100,10 +101,12 @@ const ProductsList = (props: ProductsListProps) => {
     products: state.products,
     currentCategory: state.currentCategory
   })))
-
+  
+  const getPrice = (p: ProductType) => +p.variants[0].price
+  
   const sortMap: Record<string, (a: ProductType, b: ProductType) => number> = {
-    "price-asc": (a, b) => a.prices[0] - b.prices[0],
-    "price-desc": (a, b) => b.prices[0] - a.prices[0],
+    "price-asc": (a, b) => getPrice(a) - getPrice(b),
+    "price-desc": (a, b) => getPrice(b) - getPrice(a),
 
     "name-asc": (a, b) => a.name.localeCompare(b.name),
     "name-desc": (a, b) => b.name.localeCompare(a.name),

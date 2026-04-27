@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useModal, useProducts, type ProductType } from "../../stores"
+import { useProducts, type ProductType } from "../../stores"
 import styles from './App.module.css'
 
 type NavElementProps = {
@@ -46,11 +46,10 @@ type ProductCardProps = {
 }
 
 const ProductCard = (props: ProductCardProps) => {
-  const {products, setSelectedProduct} = useProducts(useShallow(state => ({
+  const {products} = useProducts(useShallow(state => ({
     products: state.products,
-    setSelectedProduct: state.setSelectedProduct
   })))
-  let product = products.find((product) => product.id === props.id) as ProductType
+  const product = products.find((product) => product.id === props.id) as ProductType
 
   return (
     <div className={styles.product}>
