@@ -51,9 +51,10 @@ type ProductProps = {
 }
 
 const Product = (props: ProductProps) => {
-  const {setSelectedProduct, deleteProduct} = useProducts(useShallow(state => ({
+  const {setSelectedProduct, deleteProduct, toggleProduct} = useProducts(useShallow(state => ({
     setSelectedProduct: state.setSelectedProduct,
-    deleteProduct: state.deleteProduct
+    deleteProduct: state.deleteProduct,
+    toggleProduct: state.toggleProduct
   })))
 
   const {setModalDisplay} = useModal(useShallow(state => ({
@@ -71,7 +72,7 @@ const Product = (props: ProductProps) => {
         <div className='product-price'>{prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
-        <Switch disableRipple checked={isOn}
+        <Switch onChange={() => toggleProduct(id)} disableRipple checked={isOn}
           sx={{
             transform: "scale(1.5)",
             '& .MuiSwitch-switchBase.Mui-checked': {

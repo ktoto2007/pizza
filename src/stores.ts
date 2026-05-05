@@ -24,6 +24,7 @@ interface ProductsStore {
     setSelectedProduct: (product: ProductType | null) => void
     updateProduct: (product: ProductType) => void
     deleteProduct: (id: string) => void
+    toggleProduct: (id: string) => void
 }
 
 export const useProducts = create<ProductsStore>((set) => ({
@@ -54,6 +55,14 @@ export const useProducts = create<ProductsStore>((set) => ({
         set(
             state=>({...state, products: state.products.filter((p) => p.id !== id)})
         )
+    },
+    toggleProduct(id) {
+        set(state => ({
+            ...state,
+            products: state.products.map((p) =>
+            p.id === id ? { ...p, isOn: !p.isOn } : p
+            )
+        }))
     },
 }))
 
