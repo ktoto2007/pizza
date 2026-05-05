@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# Pizzeria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание проекта
 
-Currently, two official plugins are available:
+Проект представляет собой веб-приложение пиццерии.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Пользовательская часть позволяет просматривать каталог товаров, выбирать варианты продукта, добавлять позиции в корзину и оформлять заказ.
 
-## React Compiler
+В приложении также реализована административная панель. Через неё можно создавать новые товары, редактировать существующие, удалять их, а также управлять их отображением на пользовательской части сайта. Активные товары отображаются на главной странице, отключённые — скрываются из каталога.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Основная цель проекта — реализовать простой интерфейс интернет-пиццерии с разделением на клиентскую и административную части.
 
-## Expanding the ESLint configuration
+## Архитектура системы
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Проект построен как клиентское SPA-приложение на React с использованием TypeScript.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Архитектура системы состоит из нескольких основных частей:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Пользовательская часть
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Отвечает за отображение каталога товаров, карточек продуктов, корзины и оформления заказа.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Административная часть
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Используется для управления каталогом товаров: добавления, редактирования, удаления и включения или отключения отображения товаров.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Глобальное состояние
+
+Для хранения состояния приложения используется Zustand.
+
+В глобальном состоянии хранятся:
+
+- список товаров;
+- корзина;
+- выбранный товар;
+- состояние модальных окон.
+
+### Компонентная структура
+
+Интерфейс разбит на независимые переиспользуемые компоненты.
+
+Основные компоненты:
+
+- карточка товара;
+- корзина;
+- модальное окно;
+- список товаров;
+- элементы управления.
+
+### Стилизация
+
+Стилизация выполнена с помощью CSS Modules, что позволяет изолировать стили компонентов и избежать конфликтов имён классов.
+
+## Ссылка на ТЗ
+https://docs.google.com/document/d/1U8vHHM_pqZPmc1QKP0meBbDEZ6zj4vC0keBVixsX6SQ/edit?usp=sharing
+
+## Ссылка на макеты
+https://www.figma.com/design/gAHOwz2a9uZXdbUZLorHXt/%D0%9F%D0%B8%D1%86%D1%86%D0%B5%D1%80%D0%B8%D1%8F?node-id=0-1&t=oj7i9q0ljtwh5dHv-1
