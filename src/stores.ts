@@ -26,11 +26,6 @@ interface ProductsStore {
     deleteProduct: (id: string) => void
 }
 
-interface ModalStore {
-    display: string
-    setModalDisplay: (display: string) => void
-}
-
 export const useProducts = create<ProductsStore>((set) => ({
     products: mock,
     currentCategory: 'pizza',
@@ -62,6 +57,11 @@ export const useProducts = create<ProductsStore>((set) => ({
     },
 }))
 
+interface ModalStore {
+    display: string
+    setModalDisplay: (display: string) => void
+}
+
 export const useModal = create<ModalStore>((set) => ({
     display: 'none',
     setModalDisplay: (display) => {
@@ -69,4 +69,82 @@ export const useModal = create<ModalStore>((set) => ({
             state=>({...state, display: display})
         )
     }
+}))
+
+export type CartItem = {
+  id: string
+  name: string
+  url: string
+  variant: string
+  price: number
+  quantity: number
+}
+
+interface CartStore {
+    items: CartItem[]
+    display: string
+    setCartDisplay: (display: string) => void
+    addToCart: (item: CartItem) => void
+    removeFromCart: (id: string, variant: string) => void
+    clearCart: () => void
+    increase: (id: string, variant: string) => void
+    decrease: (id: string, variant: string) => void
+}
+
+export const useCart = create<CartStore>((set) => ({
+    items: [],
+    display: 'none',
+    setCartDisplay(display) {
+        set(
+            state=>({...state, display: display})
+        )
+    },
+    addToCart(item) {
+        set(
+            state=>{
+                const existing = state.items.find((
+                    i => i.id === item.id && i.variant === item.variant
+                ))
+                if (existing) {
+                    return {
+                        items: state.items.map((i => 
+                            i.id === item.id && i.variant === item.variant
+                            ? {...i, quantity: i.quantity + 1} 
+                            : i
+                        ))
+                    }
+                }
+                return {
+                    items: [...state.items, item]
+                }
+            }
+        )
+    },
+    removeFromCart(id, variant) {
+        set((state) => ({
+            items: state.items.filter(
+                i => !(i.id === id && i.variant === variant)
+            )
+        }))
+    },
+    clearCart: () => set({ items: [] }) ,
+    increase: (id, variant) =>
+        set((state) => ({
+            items: state.items.map(item =>
+            item.id === id && item.variant === variant
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+        )
+    })),
+
+    decrease: (id, variant) =>
+        set((state) => ({
+            items: state.items
+            .map(item =>
+                item.id === id && item.variant === variant
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            )
+            .filter(item => item.quantity > 0) // удаляем если 0
+    })),
 }))

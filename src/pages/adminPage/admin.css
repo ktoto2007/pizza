@@ -1,6 +1,10 @@
+@font-face {
+  font-family: Inter;
+  src: url(../../fonts/inter.ttf);
+}
 * {
   margin: 0;
-  font-family: sans-serif;
+  font-family: Inter, sans-serif;
   box-sizing: border-box;
 }
 

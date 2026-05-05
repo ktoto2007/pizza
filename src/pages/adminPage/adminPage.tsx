@@ -5,6 +5,7 @@ import Switch from '@mui/material/Switch';
 import './admin.css'
 import { Modal } from '../../components/modalCreate';
 import { ModalInfo } from '../../components/modalInfo';
+import { useNavigate } from 'react-router-dom'
 
 type NavElementProps = {
   name: string;
@@ -40,18 +41,17 @@ const NavElement = (props: NavElementProps) => {
   }, [props.name]);
 
   return (
-    <div onClick={e => setCurrentCategory(type)} className='navElement'>{props.name}</div>
+    <div onClick={() => setCurrentCategory(type)} className='navElement'>{props.name}</div>
   )
 }
 
 type ProductProps = {
-  id: string
+  product: ProductType
   openModal: () => void
 }
 
 const Product = (props: ProductProps) => {
-  const {products, setSelectedProduct, deleteProduct} = useProducts(useShallow(state => ({
-    products: state.products,
+  const {setSelectedProduct, deleteProduct} = useProducts(useShallow(state => ({
     setSelectedProduct: state.setSelectedProduct,
     deleteProduct: state.deleteProduct
   })))
@@ -60,19 +60,18 @@ const Product = (props: ProductProps) => {
     setModalDisplay: state.setModalDisplay
   })))
 
-  const product = products.find((product) => product.id === props.id) as ProductType
-  const {name, variants, url} = product
+  const {id, name, variants, url, isOn} = props.product
   const prices = variants.map((v) => v.price)
   
   return (
     <div className='product'>
       <div className='product-left'>
         <img className='product-img' src={url} alt="" />
-        <div onClick={() => {props.openModal(); setSelectedProduct(product)}} className='product-name'>{name}</div>
+        <div onClick={() => {props.openModal(); setSelectedProduct(props.product)}} className='product-name'>{name}</div>
         <div className='product-price'>{prices.join('/')}₽</div>
       </div>
       <div className='product-right'>
-        <Switch disableRipple defaultChecked
+        <Switch disableRipple checked={isOn}
           sx={{
             transform: "scale(1.5)",
             '& .MuiSwitch-switchBase.Mui-checked': {
@@ -83,8 +82,8 @@ const Product = (props: ProductProps) => {
             },
           }}
         />
-        <img className='edit-button' onClick={() => {setModalDisplay('flex'), setSelectedProduct(product)}} src="src\assets\edit.svg" alt="" />
-        <img className='delete-button' onClick={() => deleteProduct(props.id)} src="src\assets\Trash.svg" alt="" />
+        <img className='edit-button' onClick={() => {setModalDisplay('flex'), setSelectedProduct(props.product)}} src="src\assets\edit.svg" alt="" />
+        <img className='delete-button' onClick={() => deleteProduct(id)} src="src\assets\Trash.svg" alt="" />
       </div>
     </div>
   )
@@ -115,18 +114,17 @@ const ProductsList = (props: ProductsListProps) => {
   const renderContent = () => {
     if (props.filterText === '') {
       if (props.sortType !== 'none') {
-        return products.filter((product) => product.category === currentCategory)
+        return [...products].filter((product) => product.category === currentCategory)
         .sort(sortMap[props.sortType])
-        .map((product) => <Product openModal={props.openModal} id={product.id}/>)
+        .map((product) => <Product openModal={props.openModal} product={product}/>)
       }
       return products.filter((product) => product.category === currentCategory)
-      .map((product) => <Product openModal={props.openModal} id={product.id}/>)
+      .map((product) => <Product openModal={props.openModal} product={product}/>)
     }
     else {
       return products.filter(product => {
-        const regex = new RegExp(props.filterText, 'i')
-        return regex.test(product.name)
-      }).map((product) => <Product openModal={props.openModal} id={product.id}/>)
+        return product.name.toLowerCase().includes(props.filterText.toLowerCase())
+      }).map((product) => <Product openModal={props.openModal} product={product}/>)
     }
   }
 
@@ -158,6 +156,8 @@ export function Admin() {
     setDisplay('none')
   }
 
+  const navigate = useNavigate()
+
   return (
     <div className='container'>
       <div className='header'>
@@ -173,6 +173,7 @@ export function Admin() {
             <NavElement name='Десерты'/>
           </div>
         </div>
+        <div onClick={() => navigate('/main')} className='addButton'>Главная</div>
         <div onClick={() => setModalDisplay('flex')} className='addButton'>Добавить</div>
       </div>
       <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
