@@ -399,8 +399,28 @@ export const mock = [
       url: "src/assets/pizza.svg", description: "Несколько пицц, закуски и напитки — для большой компании.", isOn: true,},
 ];
 
-type ExtraItem = {
+export type ExtraItem = {
   name: string, 
   price: number,
   url: string,
+}
+
+export const extras: Record<string, ExtraItem[]> = {
+  pizzaExtras: [
+    { name: "Сырный бортик", price: 79, url: "src/assets/extras/Cheese Wedge.svg" },
+    { name: "Итальянские травы", price: 99, url: "src/assets/extras/Mint.svg" },
+    { name: "Лук", price: 59, url: "src/assets/extras/Onion.svg" },
+    { name: "Перец", price: 59, url: "src/assets/extras/Paprika.svg" },
+    { name: "Ананас", price: 59, url: "src/assets/extras/Pineapple.svg" },
+    { name: "Колбаски", price: 59, url: "src/assets/extras/Salami.svg" },
+    { name: "Кусочки помидора", price: 59, url: "src/assets/extras/Tomato.svg" },
+  ],
+  sauces: [
+    { name: "Сырный", price: 39, url: "src/assets/extras/Cheese sauce.svg" },
+    { name: "Барбекю", price: 39, url: "" },
+  ],
+  syrups: [
+    { name: "Ваниль", price: 29, url: "" },
+    { name: "Карамель", price: 29, url: "" },
+  ]
 }

@@ -89,10 +89,9 @@ export function Main() {
     setDisplay('none')
   }
 
-  const {setCartDisplay, display, items} = useCart(useShallow(state => ({
+  const {setCartDisplay, display} = useCart(useShallow(state => ({
     setCartDisplay: state.setCartDisplay,
     display: state.display,
-    items: state.items
   })))
 
   return (
@@ -114,9 +113,7 @@ export function Main() {
         <div onClick={() => {setCartDisplay('flex'); console.log(display)}} className={styles.cart}>Корзина</div>
       </div>
       <ProductsList openModal={openModal}/>
-      <div className='footer'>
-        <div></div>
-      </div>
+      <div className={styles.footer}></div>
     </div>
   )
 }

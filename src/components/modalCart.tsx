@@ -45,7 +45,7 @@ export const Cart = () => {
   return (
     <div className={styles.cartContainer} style={{display: display}}>
       <div className={styles.cartContent}>
-        <img onClick={e => setCartDisplay('none')} src="src\assets\close2.svg" className={styles.closeCart}></img>
+        <img onClick={() => setCartDisplay('none')} src="src\assets\close2.svg" className={styles.closeCart}></img>
         <div className={styles.cartItems}>
           {items.map((i) => <CartItemComponent key={i.id} {...i}/>)}
         </div>
