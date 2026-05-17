@@ -142,11 +142,8 @@ export function Admin() {
   })))
 
   const [filterText, setFilterText] = useState('')
-
   const [sortVisibility, setSortVisibility] = useState<React.CSSProperties['visibility']>('hidden')
-
   const [display, setDisplay] = useState('none')
-
   const [sortType, setSortType] = useState('none')
 
   const openModal = () => {

@@ -14,6 +14,17 @@ type VariantProps = {
   selectedVariant: VariantProps["variant"] | undefined
 }
 
+type ExtraItemProps = {
+  extra: ExtraItem
+  toggleExtra: (extra: ExtraItem) => void
+  selected: boolean
+}
+
+type ModalInfoProps = {
+  display: string
+  onCloseButtonClick: () => void
+}
+
 const Variant = (props: VariantProps) => {
   const handleClick = () => {
     props.setVariant(props.variant)
@@ -24,25 +35,25 @@ const Variant = (props: VariantProps) => {
   )
 }
 
-type ExtraItemProps = {
-  name: string, 
-  price: number,
-  url: string,
-}
-
 const ExtraItem = (props: ExtraItemProps) => {
+  const {name, price, url} = props.extra
+  
   return (
-    <div className={styles.extraItem}>
-      <img className={styles.extraItemImg} src={props.url} alt="" />
-      <div className={styles.extraItemName}>{props.name}</div>
-      <div className={styles.extraItemPrice}>{props.price} ₽</div>
+    <div 
+      onClick={() => props.toggleExtra(props.extra)} 
+      className={styles.extraItem}
+      style={{border: props.selected ? 'solid 1px #FF6900' : 'solid 2px transparent'}}
+    >
+      <img className={styles.extraItemImg} src={url} alt="" />
+      <div className={styles.extraItemName}>{name}</div>
+      <div className={styles.extraItemPrice}>{price} ₽</div>
     </div>
   )
 }
 
-type ModalInfoProps = {
-  display: string
-  onCloseButtonClick: () => void
+const extrasMap = {
+    pizza: extras.pizzaExtras,
+    snack: extras.sauces,
 }
 
 export const ModalInfoMain = (props: ModalInfoProps) => {
@@ -50,43 +61,49 @@ export const ModalInfoMain = (props: ModalInfoProps) => {
     selectedProduct: state.selectedProduct,
     setSelectedProduct: state.setSelectedProduct
   })))
-
   const {addToCart} = useCart(useShallow(state => ({
     addToCart: state.addToCart
   })))
 
-  const handleClose = () => {
-    setSelectedProduct(null)
-    props.onCloseButtonClick()
-  }
-
   const [selectedVariant, setSelectedVariant] = useState<VariantProps["variant"]>()
+  const [selectedExtras, setSelectedExtras] = useState<ExtraItem[]>([])
 
   useEffect(() => {
     if (selectedProduct) {
       setSelectedVariant(selectedProduct.variants[0])
     }
   }, [selectedProduct])
+
+  const handleClose = () => {
+    setSelectedProduct(null)
+    props.onCloseButtonClick()
+    setSelectedExtras([])
+  }
   
-  const handleClick = () => {
+  const handleAddToCart = () => {
+    if (!selectedProduct || !selectedVariant) return null
     addToCart({
       id: selectedProduct.id,
       name: selectedProduct.name,
       url: selectedProduct.url,
-      variant: selectedVariant.value,
-      price: Number(selectedVariant.price),
-      quantity: 1
+      variant: selectedVariant.value ,
+      price: Number(selectedVariant.price) + extrasPrice,
+      quantity: 1,
+      selectedExtras: selectedExtras
     })
     handleClose()
   }
 
-  const [selectedExtras, setSelectedExtras] = useState([])
-
-  const extrasMap = {
-    pizza: extras.pizzaExtras,
-    snack: extras.sauces,
-    drink: extras.syrups,
+  const toggleExtra = (extra: ExtraItem) => {
+    const exists = selectedExtras.some((e) => e.name === extra.name)
+    if (exists) {
+      setSelectedExtras(prev => prev.filter(e => e.name !== extra.name))
+    }
+    else {
+      setSelectedExtras(prev => [...prev, extra])
+    }
   }
+
   const renderExtras = () => {
     const list = extrasMap[selectedProduct?.category as keyof typeof extrasMap]
 
@@ -96,11 +113,16 @@ export const ModalInfoMain = (props: ModalInfoProps) => {
       <div>
         <div className={styles.extrasLabel}>Добавить по вкусу</div>
         <div className={styles.extras}>
-          {list.map((e) => (<ExtraItem {...e} />))}
+          {list.map((e) => {
+            const selected = selectedExtras.some(extra => e.name === extra.name)
+            return <ExtraItem extra={e} selected={selected} toggleExtra={toggleExtra} />
+          })}
         </div>
       </div>
     )
   }
+
+  const extrasPrice = selectedExtras.reduce((sum, extra) => sum + extra.price, 0)
 
   return (
     <div className={styles.modalContainer} style={{display: props.display}}>
@@ -109,10 +131,12 @@ export const ModalInfoMain = (props: ModalInfoProps) => {
         <div className={styles.modalRight}>
           <div className={styles.title}>{selectedProduct?.name}</div>
           <div className={styles.weightAndVariant}>{selectedVariant?.value}, {selectedVariant?.weight}</div>
-          <div className={styles.variants}>{selectedProduct?.variants.map(v => <Variant selectedVariant={selectedVariant} setVariant={setSelectedVariant} variant={v}/>)}</div>
+          <div className={styles.variants}>
+            {selectedProduct?.variants.map(v => <Variant selectedVariant={selectedVariant} setVariant={setSelectedVariant} variant={v}/>)}
+          </div>
           <div className={styles.descriptionInModal}>{selectedProduct?.description}</div>
           {renderExtras()}
-          <div onClick={handleClick} className={styles.addToCart}>В корзину за {selectedVariant?.price} ₽</div>
+          <div onClick={handleAddToCart} className={styles.addToCart}>В корзину за {Number(selectedVariant?.price) + extrasPrice} ₽</div>
         </div>
         <img onClick={handleClose} className={styles.closeButton} src="src\assets\close2.svg" alt="" />
       </div>

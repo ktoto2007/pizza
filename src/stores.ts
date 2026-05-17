@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import { mock } from './mock-data.ts'
+import { mock, type ExtraItem } from './mock-data.ts'
 
 export type ProductType = {
     id: string
@@ -87,6 +87,7 @@ export type CartItem = {
   variant: string
   price: number
   quantity: number
+  selectedExtras: ExtraItem[]
 }
 
 interface CartStore {
@@ -112,7 +113,7 @@ export const useCart = create<CartStore>((set) => ({
         set(
             state=>{
                 const existing = state.items.find((
-                    i => i.id === item.id && i.variant === item.variant
+                    i => i.id === item.id && i.variant === item.variant && JSON.stringify(i.selectedExtras) === JSON.stringify(item.selectedExtras)
                 ))
                 if (existing) {
                     return {

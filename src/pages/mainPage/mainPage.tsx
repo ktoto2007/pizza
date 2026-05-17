@@ -79,6 +79,11 @@ const ProductsList = (props: ProductsListProps) => {
 }
 
 export function Main() {
+  const {setCartDisplay, display} = useCart(useShallow(state => ({
+    setCartDisplay: state.setCartDisplay,
+    display: state.display,
+  })))
+  
   const [displayInfoModal, setDisplay] = useState('none')
 
   const openModal = () => {
@@ -88,11 +93,6 @@ export function Main() {
   const closeModal = () => {
     setDisplay('none')
   }
-
-  const {setCartDisplay, display} = useCart(useShallow(state => ({
-    setCartDisplay: state.setCartDisplay,
-    display: state.display,
-  })))
 
   return (
     <div className={styles.container}>

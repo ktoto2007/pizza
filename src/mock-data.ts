@@ -416,11 +416,10 @@ export const extras: Record<string, ExtraItem[]> = {
     { name: "Кусочки помидора", price: 59, url: "src/assets/extras/Tomato.svg" },
   ],
   sauces: [
-    { name: "Сырный", price: 39, url: "src/assets/extras/Cheese sauce.svg" },
-    { name: "Барбекю", price: 39, url: "" },
+    { name: "Сырный", price: 39, url: "src/assets/extras/Cheese sauce.png" },
+    { name: "Барбекю", price: 39, url: "src/assets/extras/BBQ.png" },
+    { name: "Кетчуп", price: 39, url: "src/assets/extras/Ketchup.png" },
+    { name: "Чесночный", price: 39, url: "src/assets/extras/Garlic.png" },
+    { name: "1000 островов", price: 39, url: "src/assets/extras/1000_islands.png" },
   ],
-  syrups: [
-    { name: "Ваниль", price: 29, url: "" },
-    { name: "Карамель", price: 29, url: "" },
-  ]
 }
